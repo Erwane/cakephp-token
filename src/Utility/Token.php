@@ -22,4 +22,10 @@ class Token
         $Tokens = TableRegistry::get('Token.Tokens');
         return $Tokens->newToken($scope, $scopeId, $type, $expire, $value);
     }
+
+    static public function read($id)
+    {
+        $Tokens = TableRegistry::get('Token.Tokens');
+        return $Tokens->findById($id)->first();
+    }
 }
