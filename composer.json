@@ -1,0 +1,36 @@
+{
+    "name": "erwane/cakephp-token",
+    "description": "Easy use token in CakePHP 3",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "token"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erwane Breton",
+            "email": "erwane@phea.fr"
+        }
+    ],
+
+    "require": {
+        "cakephp/cakephp": ">=3.2.0"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "5.3.*",
+        "cakephp/cakephp-codesniffer": "dev-master"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Token\\": "src"
+        }
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "Token\\Test\\": "tests"
+        }
+    },
+
+    "minimum-stability": "beta"
+}
