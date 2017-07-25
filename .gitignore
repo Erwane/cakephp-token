@@ -1,0 +1,8 @@
+config/Migrations/schema-dump-default.lock
+/vendor/*
+/tmp/*
+/logs/*
+.vagrant
+.env
+composer.lock
+webroot/js/bootstrap.min.js
