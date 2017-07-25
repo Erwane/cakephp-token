@@ -1,6 +1,6 @@
 <?php
 
-namespace Token\Utility;
+namespace Token;
 
 use Token\Model\Table\TokensTable;
 use Cake\ORM\TableRegistry;
