@@ -1,9 +1,8 @@
 <?php
-
 namespace Token;
 
-use Token\Model\Table\TokensTable;
 use Cake\ORM\TableRegistry;
+use Token\Model\Table\TokensTable;
 
 class Token
 {
@@ -17,15 +16,18 @@ class Token
      * @param  array  $value   an array of custom data
      * @return string          The token id
      */
-    static public function generate($scope = null, $scopeId = null, $type = null, $expire = null, array $value = [])
+    public static function generate($scope = null, $scopeId = null, $type = null, $expire = null, array $value = [])
     {
-        $Tokens = TableRegistry::get('Token.Tokens');
-        return $Tokens->newToken($scope, $scopeId, $type, $expire, $value);
+        return TableRegistry::get('Token.Tokens')->newToken($scope, $scopeId, $type, $expire, $value);
     }
 
-    static public function read($id)
+    /**
+     * read token from id
+     * @param  string $id   token string id
+     * @return Token        entity
+     */
+    public static function read($id)
     {
-        $Tokens = TableRegistry::get('Token.Tokens');
-        return $Tokens->findById($id)->first();
+        return TableRegistry::get('Token.Tokens')->findById($id)->first();
     }
 }

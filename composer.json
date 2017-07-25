@@ -10,15 +10,15 @@
             "email": "erwane@phea.fr"
         }
     ],
-
     "require": {
         "php": ">=5.6",
         "cakephp/cakephp": ">=3.2.0"
     },
-
     "require-dev": {
-        "phpunit/phpunit": "5.3.*",
-        "cakephp/cakephp-codesniffer": "dev-master"
+        "phpunit/phpunit": "6.*",
+        "cakephp/cakephp-codesniffer" : "dev-master",
+        "phpro/grumphp": "^0.11.3",
+        "jakub-onderka/php-parallel-lint": "^0.9.2"
     },
 
     "autoload": {

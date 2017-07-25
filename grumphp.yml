@@ -1,0 +1,14 @@
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    ascii:
+        failed: ~
+        succeeded: ~
+    tasks:
+        phplint: ~
+        phpcs:
+            standard: CakePHP
+            encoding: UTF-8
+            show_warnings: false
+            whitelist_patterns:
+                - /^src\/(.*)/
