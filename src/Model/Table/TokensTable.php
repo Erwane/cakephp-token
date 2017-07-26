@@ -13,6 +13,10 @@ class TokensTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
+        $this->setTable('token_tokens');
+        $this->setPrimaryKey('id');
+        $this->setDisplayField('type');
+
         $this->addBehavior('Timestamp');
     }
 
