@@ -27,4 +27,22 @@ class Token
     {
         return TableRegistry::get('Token.Tokens')->read($id);
     }
+
+    /**
+     * delete token
+     * @param  string|Token $token   token string id or Token entity
+     * @return Token        entity
+     */
+    public static function delete($token)
+    {
+        if (is_string($token)) {
+            $token = self::read($token);
+        }
+
+        if (!($token instanceof \Token\Model\Entity\Token)) {
+            return false;
+        }
+
+        return TableRegistry::get('Token.Tokens')->delete($token);
+    }
 }

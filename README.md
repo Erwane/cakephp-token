@@ -13,7 +13,6 @@ bin/cake migrations migrate -p Token
 ## Usage
 
 ### Generate a token
-
 ```php
 /**
  * Create a token with data and return the id
@@ -31,5 +30,16 @@ $myNewTokenId = \Token\Token::generate(array $content, $expire);
 $token = \Token\Token::read($tokenId);
 ```
 
+### Delete token
+Tokens deletion can be ignored, they will be destroyed on expire, but sometime you need to delete one token immediately
+```php
+/**
+ * delete token from id or entity
+ * @param string|Token $token   token string id or token entity
+ * @return bool                 true if token was deleted
+ */
+$result = \Token\Token::delete($token);
+```
+
 ### Auto cleaning
-Each time a token is read, expired tokens are pruned before
+Each time a token is read, expired tokens are pruned
