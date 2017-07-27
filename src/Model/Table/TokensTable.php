@@ -26,7 +26,6 @@ class TokensTable extends Table
         parent::initialize($config);
         $this->setTable('token_tokens');
         $this->setPrimaryKey('id');
-        $this->setDisplayField('type');
 
         $this->addBehavior('Timestamp');
     }
@@ -50,20 +49,14 @@ class TokensTable extends Table
 
     /**
      * create token with option
-     * @param  string       $scope   Scope or Model
-     * @param  int          $scopeId scope id
-     * @param  string       $type    token type (custom)
-     * @param  null|date    $expire  expire date or null
      * @param  array        $content token content (custom)
+     * @param  null|date    $expire  expire date or null
      * @return string                token id
      */
-    public function newToken($scope = null, $scopeId = null, $type = null, $expire = null, array $content = [])
+    public function newToken(array $content = [], $expire = null)
     {
         $entity = $this->newEntity([
             'id' => $this->uniqId(),
-            'scope' => $scope,
-            'scope_id' => $scopeId,
-            'type' => $type,
             'content' => $content,
             'expire' => is_null($expire) ? Chronos::parse('+1 day') : Chronos::parse($expire),
         ]);

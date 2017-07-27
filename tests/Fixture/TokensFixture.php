@@ -19,9 +19,6 @@ class TokensFixture extends TestFixture
      */
     public $fields = [
         'id' => ['type' => 'string', 'limit' => 50, 'null' => false],
-        'scope' => ['type' => 'string', 'limit' => 50, 'null' => true],
-        'scope_id' => ['type' => 'integer', 'null' => true],
-        'type' => ['type' => 'string', 'limit' => 64, 'null' => true],
         'content' => ['type' => 'text', 'null' => true],
         'expire' => 'datetime',
         'created' => 'datetime',
@@ -48,10 +45,7 @@ class TokensFixture extends TestFixture
             // with lots of data
             [
                 'id' => 'abcde789',
-                'scope' => 'Users',
-                'scope_id' => 1,
-                'type' => 'emailValidation',
-                'content' => json_encode(['email' => 'erwane@phea.fr', 'date' => date('Y-m-d H:i:s')]),
+                'content' => json_encode(['type' => 'emailValidation', 'userId' => 1, 'email' => 'erwane@phea.fr']),
                 'expire' => date('Y-m-d H:i:s', strtotime('now + 1 hour')),
                 'created' => date('Y-m-d H:i:s'),
             ],

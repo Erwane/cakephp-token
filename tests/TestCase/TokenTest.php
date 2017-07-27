@@ -27,7 +27,7 @@ class TokenTest extends TestCase
     public function testReadData()
     {
         $entity = Token::read('abcde789');
-        $this->assertCount(2, $entity->content);
+        $this->assertCount(3, $entity->content);
         $this->assertArrayHasKey('email', $entity->content);
         $this->assertSame('erwane@phea.fr', $entity->content['email']);
     }
@@ -41,7 +41,7 @@ class TokenTest extends TestCase
         $this->assertEmpty($entity->content);
 
         // content as array
-        $id = Token::generate(null, null, null, null, [
+        $id = Token::generate([
             'model' => 'Users',
             'model_id' => 1,
             'type' => 'accountValidation',
