@@ -63,4 +63,12 @@ class TokensTableTest extends TestCase
         $this->assertInstanceOf(\Token\Model\Entity\Token::class, $entity);
         $this->assertSame('abcde123', $entity->id);
     }
+
+    public function testReadValue()
+    {
+        $entity = $this->Tokens->read('abcde789');
+        $this->assertCount(2, $entity->value);
+        $this->assertArrayHasKey('email', $entity->value);
+        $this->assertSame('erwane@phea.fr', $entity->value['email']);
+    }
 }

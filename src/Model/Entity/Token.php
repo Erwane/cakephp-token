@@ -5,5 +5,4 @@ use Cake\ORM\Entity;
 
 class Token extends Entity
 {
-
 }

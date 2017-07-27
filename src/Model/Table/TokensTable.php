@@ -2,11 +2,22 @@
 namespace Token\Model\Table;
 
 use Cake\Chronos\Chronos;
+use Cake\Database\Schema\TableSchema;
 use Cake\ORM\Table;
 use Cake\Utility\Text;
 
 class TokensTable extends Table
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function _initializeSchema(TableSchema $schema)
+    {
+        $schema->columnType('value', 'json');
+
+        return $schema;
+    }
+
     /**
      * {@inheritDoc}
      */
