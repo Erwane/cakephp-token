@@ -5,7 +5,7 @@ This is a really "simple to use" cakephp 3 plugin for generating and reading tem
 
 ## Installation
 ```bash
-composer require erwane/cakephp-token:~1.0.0
+composer require erwane/cakephp-token:~1
 composer update
 bin/cake migrations migrate -p Token
 ```
