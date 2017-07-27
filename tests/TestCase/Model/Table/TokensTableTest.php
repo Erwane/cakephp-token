@@ -64,7 +64,7 @@ class TokensTableTest extends TestCase
         $this->assertSame('abcde123', $entity->id);
     }
 
-    public function testReadValue()
+    public function testReadContent()
     {
         $entity = $this->Tokens->read('abcde789');
         $this->assertCount(2, $entity->content);
@@ -95,5 +95,4 @@ class TokensTableTest extends TestCase
         $this->assertCount(3, $entity->content);
         $this->assertArrayHasKey('model', $entity->content);
     }
-
 }
