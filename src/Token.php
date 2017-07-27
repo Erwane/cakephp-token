@@ -28,6 +28,6 @@ class Token
      */
     public static function read($id)
     {
-        return TableRegistry::get('Token.Tokens')->findById($id)->first();
+        return TableRegistry::get('Token.Tokens')->read($id);
     }
 }
