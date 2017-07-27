@@ -93,6 +93,6 @@ class TokensTable extends Table
      */
     protected function _cleanExpired()
     {
-        $this->deleteAll(['expire <' => \Cake\I18n\FrozenTime::parse('-7 days')]);
+        $this->deleteAll(['expire <' => \Cake\I18n\FrozenTime::now()]);
     }
 }
