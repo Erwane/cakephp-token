@@ -21,6 +21,23 @@ class TokensTable extends Table
     }
 
     /**
+     * get token by id
+     * @param  string $id   token id
+     * @return bool|Token   false or token entity
+     */
+    public function read($id)
+    {
+        // clean expired tokens first
+        $this->_cleanExpired();
+
+        // clean id
+        $id = preg_replace('/^([a-f0-9]{8}).*/', '$1', $id);
+
+        // Get token for this id
+        return $this->findById($id)->first();
+    }
+
+    /**
      * create token with option
      * @param  string       $scope   Scope or Model
      * @param  int          $scopeId scope id
@@ -68,5 +85,14 @@ class TokensTable extends Table
     protected function generateKey()
     {
         return substr(hash('sha256', Text::uuid()), 0, 8);
+    }
+
+    /**
+     * clean expired tokens
+     * @return void
+     */
+    protected function _cleanExpired()
+    {
+        $this->deleteAll(['expire <' => \Cake\I18n\FrozenTime::parse('-7 days')]);
     }
 }
