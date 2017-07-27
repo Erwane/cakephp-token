@@ -50,4 +50,19 @@ class TokenTest extends TestCase
         $this->assertCount(3, $entity->content);
         $this->assertArrayHasKey('model', $entity->content);
     }
+
+    public function testDelete()
+    {
+        // expired token
+        $result = Token::delete('abcde456');
+        $this->assertFalse($result);
+
+        // exist token
+        $result = Token::delete('abcde789');
+        $this->assertTrue($result);
+
+        // Check if deleted
+        $entity = Token::read('abcde789');
+        $this->assertNull($entity);
+    }
 }
