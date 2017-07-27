@@ -67,7 +67,6 @@ class TokensTable extends Table
             'content' => $content,
             'expire' => is_null($expire) ? Chronos::parse('+1 day') : Chronos::parse($expire),
         ]);
-        debug($entity);
 
         $this->save($entity);
 

@@ -75,23 +75,25 @@ class TokensTableTest extends TestCase
     public function testGenerate()
     {
         // no data at all
-        // $id = $this->Tokens->newToken();
-        // $entity = $this->Tokens->get($id);
-        // $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 1 day')));
-        // $this->assertNull($entity->content);
+        $id = $this->Tokens->newToken();
+        $entity = $this->Tokens->get($id);
+        $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 1 day')));
+        $this->assertEmpty($entity->content);
 
-        // // // expire in 3 days
-        // $id = $this->Tokens->newToken(null, null, null, '+3 days');
-        // $entity = $this->Tokens->get($id);
-        // $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 3 day')));
+        // // expire in 3 days
+        $id = $this->Tokens->newToken(null, null, null, '+3 days');
+        $entity = $this->Tokens->get($id);
+        $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 3 day')));
 
         // content as array
         $id = $this->Tokens->newToken(null, null, null, null, [
             'model' => 'Users',
             'model_id' => 1,
+            'type' => 'accountValidation',
         ]);
         $entity = $this->Tokens->get($id);
-        debug($entity);
+        $this->assertCount(3, $entity->content);
+        $this->assertArrayHasKey('model', $entity->content);
     }
 
 }
