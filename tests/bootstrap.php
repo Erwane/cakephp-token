@@ -17,12 +17,13 @@ define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
 define('APP_DIR', 'app');
 define('WEBROOT_DIR', 'webroot');
 define('WWW_ROOT', dirname(APP) . DS . 'webroot' . DS);
-define('TMP', sys_get_temp_dir() . DS);
+define('TMP', sys_get_temp_dir() . DS . 'tokens' . DS);
 define('CONFIG', APP . 'config' . DS);
 define('CACHE', TMP);
 define('LOGS', TMP);
 
 //@codingStandardsIgnoreStart
+@mkdir(TMP);
 @mkdir(LOGS);
 @mkdir(SESSIONS);
 @mkdir(CACHE);
@@ -57,6 +58,19 @@ Cache::config([
 ]);
 
 Configure::write('debug', true);
+
+ConnectionManager::config([
+    'test' => [
+        'className' => 'Cake\Database\Connection',
+        'driver' => 'Cake\Database\Driver\Sqlite',
+        'database' => TMP . 'test_token',
+        'encoding' => 'utf8',
+        'timezone' => 'UTC',
+        'cacheMetadata' => true,
+        'quoteIdentifiers' => false,
+        'log' => false,
+    ]
+]);
 
 ini_set('intl.default_locale', 'en_US');
 
