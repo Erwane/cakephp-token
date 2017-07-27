@@ -19,16 +19,18 @@ define('WEBROOT_DIR', 'webroot');
 define('WWW_ROOT', dirname(APP) . DS . 'webroot' . DS);
 define('TMP', sys_get_temp_dir() . DS . 'tokens' . DS);
 define('CONFIG', APP . 'config' . DS);
-define('CACHE', TMP);
-define('LOGS', TMP);
+define('CACHE', TMP . 'cache' . DS);
+define('SESSIONS', TMP . 'sessions' . DS);
+define('LOGS', TMP . 'logs' . DS);
 
 //@codingStandardsIgnoreStart
 @mkdir(TMP);
 @mkdir(LOGS);
 @mkdir(SESSIONS);
 @mkdir(CACHE);
-@mkdir(CACHE . 'views');
 @mkdir(CACHE . 'models');
+@mkdir(CACHE . 'persistent');
+@mkdir(CACHE . 'views');
 
 require_once CORE_PATH . 'config/bootstrap.php';
 date_default_timezone_set('UTC');
@@ -45,16 +47,29 @@ Configure::write('App', [
 ]);
 
 Cache::config([
+    'default' => [
+        'className' => 'File',
+        'path' => CACHE,
+        'mask' => 0666,
+        'serialize' => true,
+        'duration' => 'now',
+    ],
     '_cake_core_' => [
-        'engine' => 'File',
-        'prefix' => 'cake_core_',
-        'serialize' => true
+        'className' => 'File',
+        'prefix' => 'core_',
+        'path' => CACHE . 'persistent/',
+        'mask' => 0666,
+        'serialize' => true,
+        'duration' => 'now',
     ],
     '_cake_model_' => [
-        'engine' => 'File',
-        'prefix' => 'cake_model_',
-        'serialize' => true
-    ]
+        'className' => 'File',
+        'prefix' => 'model_',
+        'path' => CACHE . 'models/',
+        'mask' => 0666,
+        'serialize' => true,
+        'duration' => 'now',
+    ],
 ]);
 
 Configure::write('debug', true);
