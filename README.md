@@ -21,11 +21,11 @@ bin/cake migrations migrate -p Token
  * @param  int    $scopeId The id of associated model. Can be null
  * @param  string $type    The type of token (customize as you want)
  * @param  string $expire  expire exprimed in '+6 days +2 hours' format
- * @param  array  $value   an array of custom data
+ * @param  array  $content   an array of custom data
  * @return string          The token id
  */
 
-$myNewTokenId = \Token\Token::generate($scope, $scopeId, $type, $expire, array $value);
+$myNewTokenId = \Token\Token::generate($scope, $scopeId, $type, $expire, array $content);
 ```
 
 ### Read token

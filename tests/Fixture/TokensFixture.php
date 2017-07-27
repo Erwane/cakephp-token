@@ -22,7 +22,7 @@ class TokensFixture extends TestFixture
         'scope' => ['type' => 'string', 'limit' => 50, 'null' => true],
         'scope_id' => ['type' => 'integer', 'null' => true],
         'type' => ['type' => 'string', 'limit' => 64, 'null' => true],
-        'value' => ['type' => 'text', 'null' => true],
+        'content' => ['type' => 'text', 'null' => true],
         'expire' => 'datetime',
         'created' => 'datetime',
         '_constraints' => [
@@ -51,7 +51,7 @@ class TokensFixture extends TestFixture
                 'scope' => 'Users',
                 'scope_id' => 1,
                 'type' => 'emailValidation',
-                'value' => json_encode(['email' => 'erwane@phea.fr', 'date' => date('Y-m-d H:i:s')]),
+                'content' => json_encode(['email' => 'erwane@phea.fr', 'date' => date('Y-m-d H:i:s')]),
                 'expire' => date('Y-m-d H:i:s', strtotime('now + 1 hour')),
                 'created' => date('Y-m-d H:i:s'),
             ],

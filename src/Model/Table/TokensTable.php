@@ -13,7 +13,7 @@ class TokensTable extends Table
      */
     protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->columnType('value', 'json');
+        $schema->columnType('content', 'json');
 
         return $schema;
     }
@@ -54,19 +54,20 @@ class TokensTable extends Table
      * @param  int          $scopeId scope id
      * @param  string       $type    token type (custom)
      * @param  null|date    $expire  expire date or null
-     * @param  array        $value   token value (custom)
+     * @param  array        $content token content (custom)
      * @return string                token id
      */
-    public function newToken($scope, $scopeId, $type, $expire = null, array $value = [])
+    public function newToken($scope = null, $scopeId = null, $type = null, $expire = null, array $content = [])
     {
         $entity = $this->newEntity([
             'id' => $this->uniqId(),
             'scope' => $scope,
             'scope_id' => $scopeId,
             'type' => $type,
-            'content' => json_encode($value),
-            'expire' => is_null($expire) ? Chronos::now() : Chronos::parse($expire),
+            'content' => $content,
+            'expire' => is_null($expire) ? Chronos::parse('+1 day') : Chronos::parse($expire),
         ]);
+        debug($entity);
 
         $this->save($entity);
 

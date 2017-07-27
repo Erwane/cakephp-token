@@ -67,8 +67,31 @@ class TokensTableTest extends TestCase
     public function testReadValue()
     {
         $entity = $this->Tokens->read('abcde789');
-        $this->assertCount(2, $entity->value);
-        $this->assertArrayHasKey('email', $entity->value);
-        $this->assertSame('erwane@phea.fr', $entity->value['email']);
+        $this->assertCount(2, $entity->content);
+        $this->assertArrayHasKey('email', $entity->content);
+        $this->assertSame('erwane@phea.fr', $entity->content['email']);
     }
+
+    public function testGenerate()
+    {
+        // no data at all
+        // $id = $this->Tokens->newToken();
+        // $entity = $this->Tokens->get($id);
+        // $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 1 day')));
+        // $this->assertNull($entity->content);
+
+        // // // expire in 3 days
+        // $id = $this->Tokens->newToken(null, null, null, '+3 days');
+        // $entity = $this->Tokens->get($id);
+        // $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 3 day')));
+
+        // content as array
+        $id = $this->Tokens->newToken(null, null, null, null, [
+            'model' => 'Users',
+            'model_id' => 1,
+        ]);
+        $entity = $this->Tokens->get($id);
+        debug($entity);
+    }
+
 }
