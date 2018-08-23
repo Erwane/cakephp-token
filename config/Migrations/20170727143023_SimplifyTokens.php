@@ -11,8 +11,6 @@ class SimplifyTokens extends AbstractMigration
     {
         $table = $this->table('token_tokens');
 
-        $table->removeIndex(['scope', 'scope_id']);
-
         $table
             ->removeColumn('scope')
             ->removeColumn('scope_id')
