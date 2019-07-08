@@ -64,6 +64,12 @@ class TokensTableTest extends TestCase
         $this->assertSame('abcde123', $entity->id);
     }
 
+    public function testReadExistsBInary()
+    {
+        $entity = $this->Tokens->read('abcdE123');
+        $this->assertNull($entity);
+    }
+
     public function testReadContent()
     {
         $entity = $this->Tokens->read('abcde789');
