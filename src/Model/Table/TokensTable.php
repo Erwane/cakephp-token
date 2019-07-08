@@ -13,7 +13,7 @@ class TokensTable extends Table
      */
     protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->columnType('content', 'json');
+        $schema->setColumnType('content', 'json');
 
         return $schema;
     }
@@ -24,10 +24,10 @@ class TokensTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->setTable('token_tokens');
-        $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->setTable('token_tokens')
+            ->setPrimaryKey('id')
+            ->addBehavior('Timestamp');
     }
 
     /**

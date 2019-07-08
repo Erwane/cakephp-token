@@ -15,7 +15,7 @@ class TokenTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.token.tokens',
+        'plugin.Token.Tokens',
     ];
 
     public function testReadExpired()

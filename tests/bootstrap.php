@@ -46,7 +46,7 @@ Configure::write('App', [
     'wwwRoot' => WWW_ROOT
 ]);
 
-Cache::config([
+Cache::setConfig([
     'default' => [
         'className' => 'File',
         'path' => CACHE,
@@ -74,7 +74,7 @@ Cache::config([
 
 Configure::write('debug', true);
 
-ConnectionManager::config([
+ConnectionManager::setConfig([
     'test' => [
         'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Sqlite',
