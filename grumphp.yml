@@ -7,8 +7,8 @@ parameters:
     tasks:
         phplint: ~
         phpcs:
+            report: full
             standard: CakePHP
             encoding: UTF-8
-            show_warnings: false
             whitelist_patterns:
-                - /^src\/(.*)/
+                - /^src\/(.*\.php)/

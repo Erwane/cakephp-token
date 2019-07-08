@@ -24,7 +24,7 @@ class TokensTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.token.tokens',
+        'plugin.Token.Tokens',
     ];
 
     /**
@@ -62,6 +62,12 @@ class TokensTableTest extends TestCase
         $entity = $this->Tokens->read('abcde123');
         $this->assertInstanceOf(\Token\Model\Entity\Token::class, $entity);
         $this->assertSame('abcde123', $entity->id);
+    }
+
+    public function testReadExistsBInary()
+    {
+        $entity = $this->Tokens->read('abcdE123');
+        $this->assertNull($entity);
     }
 
     public function testReadContent()

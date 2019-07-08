@@ -4,7 +4,7 @@ namespace Token\Model\Table;
 use Cake\Chronos\Chronos;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\Table;
-use Cake\Utility\Text;
+use Cake\Utility\Security;
 
 class TokensTable extends Table
 {
@@ -13,7 +13,7 @@ class TokensTable extends Table
      */
     protected function _initializeSchema(TableSchema $schema)
     {
-        $schema->columnType('content', 'json');
+        $schema->setColumnType('content', 'json');
 
         return $schema;
     }
@@ -24,10 +24,10 @@ class TokensTable extends Table
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->setTable('token_tokens');
-        $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->setTable('token_tokens')
+            ->setPrimaryKey('id')
+            ->addBehavior('Timestamp');
     }
 
     /**
@@ -56,7 +56,7 @@ class TokensTable extends Table
     public function newToken(array $content = [], $expire = null)
     {
         $entity = $this->newEntity([
-            'id' => $this->uniqId(),
+            'id' => $this->_uniqId(),
             'content' => $content,
             'expire' => is_null($expire) ? Chronos::parse('+1 day') : Chronos::parse($expire),
         ]);
@@ -70,25 +70,24 @@ class TokensTable extends Table
      * generate uniq token id
      * @return string
      */
-    protected function uniqId()
+    protected function _uniqId()
     {
         $exists = true;
 
-        while ($exists) {
-            $key = $this->generateKey();
-            $exists = $this->find()->where(['id' => $key])->first();
-        }
+        $length = 8;
+
+        do {
+            // generate random
+            $random = base64_encode(Security::randomBytes($length * 4));
+
+            // cleanup
+            $clean = preg_replace('/[^A-Za-z0-9]/', '', $random);
+
+            // random part length
+            $key = substr($clean, random_int(1, $length * 2), $length);
+        } while ($this->exists(['id' => $key]));
 
         return $key;
-    }
-
-    /**
-     * generate random key
-     * @return string  8 chars key
-     */
-    protected function generateKey()
-    {
-        return substr(hash('sha256', Text::uuid()), 0, 8);
     }
 
     /**
