@@ -18,7 +18,6 @@ define('APP_DIR', 'app');
 define('WEBROOT_DIR', 'webroot');
 define('WWW_ROOT', dirname(APP) . DS . 'webroot' . DS);
 define('TMP', sys_get_temp_dir() . DS . 'tokens' . DS);
-define('CONFIG', APP . 'config' . DS);
 define('CACHE', TMP . 'cache' . DS);
 define('SESSIONS', TMP . 'sessions' . DS);
 define('LOGS', TMP . 'logs' . DS);
