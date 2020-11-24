@@ -7,6 +7,11 @@ use Migrations\AbstractMigration;
  */
 class BinaryId extends AbstractMigration
 {
+    /**
+     * Apply migrations
+     *
+     * @return void
+     */
     public function up()
     {
         $table = $this->table('token_tokens');

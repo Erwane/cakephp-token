@@ -3,10 +3,18 @@
 use Migrations\AbstractMigration;
 use Phinx\Db\Adapter\MysqlAdapter;
 
+/**
+ * Class SimplifyTokens
+ */
 class SimplifyTokens extends AbstractMigration
 {
     public $autoId = false;
 
+    /**
+     * Apply migrations
+     *
+     * @return void
+     */
     public function up()
     {
         $table = $this->table('token_tokens');

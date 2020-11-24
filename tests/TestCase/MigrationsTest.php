@@ -1,9 +1,9 @@
 <?php
 namespace Token\Test\TestCase;
 
-use Cake\Database\Connection;
 use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\TestCase;
+use Exception;
 use Migrations\Migrations;
 
 /**
@@ -15,6 +15,21 @@ class MigrationsTest extends TestCase
 {
     public function testMigrations()
     {
+        $cnx = ConnectionManager::get('test');
+
+        // Cleanup database before migrations
+        try {
+            $tables = $cnx->getSchemaCollection()->listTables();
+            foreach ($tables as $table) {
+                $sql = $cnx->getDriver()->newTableSchema($table)->dropSql($cnx);
+                foreach ($sql as $stmt) {
+                    $cnx->execute($stmt)->closeCursor();
+                }
+            }
+        } catch (Exception $e) {
+            self::assertFalse(true, "Can't cleanup database");
+        }
+
         $migrations = new Migrations([
             'connection' => 'test',
         ]);
@@ -25,10 +40,12 @@ class MigrationsTest extends TestCase
 
         self::assertCount(3, $status);
 
-        $cnx = ConnectionManager::get('test');
-
         $schema = $cnx->getSchemaCollection()->describe('token_tokens');
 
+        // Columns
+        self::assertSame(['id', 'content', 'expire', 'created'], $schema->columns());
+
+        // Describe
         $columns = [
             'id' => [
                 'type' => 'string',
