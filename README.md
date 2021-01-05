@@ -5,7 +5,7 @@ This is a really "simple to use" cakephp 3 plugin for generating and reading tem
 
 ## Installation
 ```bash
-composer require erwane/cakephp-token:~1
+composer require erwane/cakephp-token:^1.3
 composer update
 bin/cake migrations migrate -p Token
 ```
@@ -24,19 +24,20 @@ bin/cake migrations migrate -p Token
 $myNewTokenId = \Token\Token::generate(array $content, $expire);
 ```
 
-### Read token
+### Get token
 ```php
-// return false (expired or not found) or Token entity
-$token = \Token\Token::read($tokenId);
+// return null (expired or not found) or Token entity
+$token = \Token\Token::get($tokenId);
 ```
 
 ### Delete token
 Tokens deletion can be ignored, they will be destroyed on expire, but sometime you need to delete one token immediately
 ```php
 /**
- * delete token from id or entity
- * @param string|Token $token   token string id or token entity
- * @return bool                 true if token was deleted
+ * Delete token from id or entity
+ * 
+ * @param \Token\Model\Entity\Token|string $token Token entity or id
+ * @return bool True if token was deleted
  */
 $result = \Token\Token::delete($token);
 ```
