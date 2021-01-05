@@ -1,48 +1,82 @@
 <?php
+declare(strict_types=1);
+
 namespace Token;
 
-use Cake\ORM\TableRegistry;
-use Token\Model\Table\TokensTable;
+use Cake\ORM\Locator\TableLocator;
+use Cake\ORM\Table;
+use Token\Model\Entity\Token as TokenEntity;
 
+/**
+ * Class Token
+ *
+ * @package Token
+ */
 class Token
 {
+    /**
+     * Get Tokens table
+     *
+     * @return \Token\Model\Table\TokensTable|\Cake\ORM\Table
+     */
+    public static function getTable(): Table
+    {
+        $locator = new TableLocator();
+
+        return $locator->get('Token.Tokens');
+    }
 
     /**
      * Create a token with data and return the id
-     * @param  array  $content an array of custom data
-     * @param  null|string $expire  expire exprimed in '+6 days +2 hours' format
-     * @return string          The token id
+     *
+     * @param  array  $content Token content as array
+     * @param  string|null $expire Expire exprimed in '+6 days +2 hours' format
+     * @return string Token id
      */
-    public static function generate(array $content = [], $expire = null)
+    public static function generate(array $content = [], string $expire = null): string
     {
-        return TableRegistry::get('Token.Tokens')->newToken($content, $expire);
+        return self::getTable()->newToken($content, $expire);
     }
 
     /**
-     * read token from id
-     * @param  string $id   token string id
-     * @return Token        entity
+     * Read token from id
+     *
+     * @param  string $id Token string id
+     * @return \Token\Model\Entity\Token|null Entity
+     * @deprecated Use Token::get(string $id)
      */
-    public static function read($id)
+    public static function read(string $id): ?TokenEntity
     {
-        return TableRegistry::get('Token.Tokens')->read($id);
+        return self::getTable()->read($id);
     }
 
     /**
-     * delete token
-     * @param  string|Token $token   token string id or Token entity
-     * @return Token        entity
+     * Read token from id
+     *
+     * @param  string $id Token string id
+     * @return \Token\Model\Entity\Token|null Entity
      */
-    public static function delete($token)
+    public static function get(string $id): ?TokenEntity
+    {
+        return self::getTable()->read($id);
+    }
+
+    /**
+     * Delete token
+     *
+     * @param  \Token\Model\Entity\Token|string $token Token entity or string id
+     * @return bool
+     */
+    public static function delete($token): bool
     {
         if (is_string($token)) {
-            $token = self::read($token);
+            $token = self::get($token);
         }
 
-        if (!($token instanceof \Token\Model\Entity\Token)) {
+        if (!($token instanceof TokenEntity)) {
             return false;
         }
 
-        return TableRegistry::get('Token.Tokens')->delete($token);
+        return self::getTable()->delete($token);
     }
 }

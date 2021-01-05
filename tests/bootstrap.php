@@ -1,91 +1,49 @@
 <?php
-// @codingStandardsIgnoreFile
-use Cake\Cache\Cache;
+declare(strict_types=1);
+
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
-use Cake\I18n\I18n;
+use Cake\Routing\Router;
+use Cake\Utility\Security;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+$findRoot = function ($root) {
+    do {
+        $lastRoot = $root;
+        $root = dirname($root);
+        if (is_dir($root . '/vendor/cakephp/cakephp')) {
+            return $root;
+        }
+    } while ($root !== $lastRoot);
 
-define('ROOT', dirname(__DIR__) . DS);
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
-define('TESTS', ROOT . 'tests');
-define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
-define('APP_DIR', 'app');
-define('WEBROOT_DIR', 'webroot');
-define('WWW_ROOT', dirname(APP) . DS . 'webroot' . DS);
-define('TMP', sys_get_temp_dir() . DS . 'tokens' . DS);
-define('CACHE', TMP . 'cache' . DS);
-define('SESSIONS', TMP . 'sessions' . DS);
-define('LOGS', TMP . 'logs' . DS);
+    /** @noinspection PhpUnhandledExceptionInspection */
+    throw new Exception('Cannot find the root of the application, unable to run tests');
+};
+$root = $findRoot(__FILE__);
+unset($findRoot);
+chdir($root);
 
-//@codingStandardsIgnoreStart
-@mkdir(TMP);
-@mkdir(LOGS);
-@mkdir(SESSIONS);
-@mkdir(CACHE);
-@mkdir(CACHE . 'models');
-@mkdir(CACHE . 'persistent');
-@mkdir(CACHE . 'views');
+require_once 'vendor/cakephp/cakephp/src/basics.php';
+require_once 'vendor/autoload.php';
 
-require_once CORE_PATH . 'config/bootstrap.php';
-date_default_timezone_set('UTC');
-mb_internal_encoding('UTF-8');
-
-Configure::write('App', [
-    'namespace' => 'App',
-    'encoding' => 'UTF-8',
-    'base' => false,
-    'baseUrl' => false,
-    'dir' => APP_DIR,
-    'webroot' => 'webroot',
-    'wwwRoot' => WWW_ROOT
-]);
-
-Cache::setConfig([
-    'default' => [
-        'className' => 'File',
-        'path' => CACHE,
-        'mask' => 0666,
-        'serialize' => true,
-        'duration' => 'now',
-    ],
-    '_cake_core_' => [
-        'className' => 'File',
-        'prefix' => 'core_',
-        'path' => CACHE . 'persistent/',
-        'mask' => 0666,
-        'serialize' => true,
-        'duration' => 'now',
-    ],
-    '_cake_model_' => [
-        'className' => 'File',
-        'prefix' => 'model_',
-        'path' => CACHE . 'models/',
-        'mask' => 0666,
-        'serialize' => true,
-        'duration' => 'now',
-    ],
-]);
+define('ROOT', $root . DS . 'tests' . DS . 'test_app' . DS);
+define('APP', ROOT . 'App' . DS);
+define('TMP', sys_get_temp_dir() . DS);
+define('CONFIG', ROOT . DS . 'config' . DS);
 
 Configure::write('debug', true);
-
-ConnectionManager::setConfig([
-    'test' => [
-        'className' => 'Cake\Database\Connection',
-        'driver' => 'Cake\Database\Driver\Sqlite',
-        'database' => TMP . 'test_token',
-        'encoding' => 'utf8',
-        'timezone' => 'UTC',
-        'cacheMetadata' => true,
-        'quoteIdentifiers' => false,
-        'log' => false,
-    ]
+Configure::write('App', [
+    'namespace' => 'TestApp',
+    'paths' => [
+        'plugins' => [ROOT . 'Plugin' . DS],
+        'templates' => [ROOT . 'templates' . DS],
+    ],
 ]);
 
-ini_set('intl.default_locale', 'en_US');
+if (!getenv('DB_URL')) {
+    putenv('DB_URL=sqlite:///:memory:');
+}
+ConnectionManager::setConfig('test', ['url' => getenv('DB_URL')]);
+Router::reload();
+Security::setSalt('oJt5xYtBOSCLtlra3s5xgs96USjPLNJ8np657QSI4zhksqOh');
 
 $_SERVER['PHP_SELF'] = '/';

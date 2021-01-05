@@ -1,11 +1,19 @@
 <?php
+declare(strict_types=1);
+
 namespace Token\Model\Table;
 
 use Cake\Chronos\Chronos;
 use Cake\Database\Schema\TableSchema;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
+use Token\Model\Entity\Token;
 
+/**
+ * Class TokensTable
+ *
+ * @package Token\Model\Table
+ */
 class TokensTable extends Table
 {
     /**
@@ -33,9 +41,9 @@ class TokensTable extends Table
     /**
      * get token by id
      * @param  string $id   token id
-     * @return bool|Token   false or token entity
+     * @return \Token\Model\Entity\Token|null Token entity
      */
-    public function read($id)
+    public function read(string $id): ?Token
     {
         // clean expired tokens first
         $this->_cleanExpired();

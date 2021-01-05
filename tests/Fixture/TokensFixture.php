@@ -1,15 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace Token\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * UsersFixture
+ * Class TokensFixture
  *
+ * @package Token\Test\Fixture
  */
 class TokensFixture extends TestFixture
 {
-    public $connection = 'test';
     public $table = 'token_tokens';
 
     /**
@@ -24,7 +26,7 @@ class TokensFixture extends TestFixture
         'created' => 'datetime',
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id']],
-        ]
+        ],
     ];
 
     public function init()
