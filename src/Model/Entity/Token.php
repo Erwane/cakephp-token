@@ -10,8 +10,6 @@ use Cake\ORM\Entity;
  *
  * @package Token\Model\Entity
  * @property string id
- * @property string scope
- * @property int scope_id
  * @property array content
  * @property \Cake\I18n\FrozenTime expire
  * @property \Cake\I18n\FrozenTime created

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Token\Test\TestCase;
 
 use Cake\Datasource\ConnectionManager;
@@ -13,9 +15,25 @@ use Migrations\Migrations;
  */
 class MigrationsTest extends TestCase
 {
+    /**
+     * @inheritDoc
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        if (is_file(TMP . 'test_token')) {
+            unlink(TMP . 'test_token');
+        }
+    }
+
+    /**
+     * @test
+     */
     public function testMigrations()
     {
-        $cnx = ConnectionManager::get('test');
+        ConnectionManager::setConfig('migration', ['url' => 'sqlite:///' . TMP . 'test_token']);
+        $cnx = ConnectionManager::get('migration');
 
         // Cleanup database before migrations
         try {
@@ -31,13 +49,13 @@ class MigrationsTest extends TestCase
         }
 
         $migrations = new Migrations([
-            'connection' => 'test',
+            'plugin' => 'Token',
+            'connection' => 'migration',
         ]);
         $success = $migrations->migrate();
         self::assertTrue($success);
 
         $status = $migrations->status();
-
         self::assertCount(3, $status);
 
         $schema = $cnx->getSchemaCollection()->describe('token_tokens');

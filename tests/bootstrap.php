@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
@@ -42,8 +43,11 @@ Configure::write('App', [
 if (!getenv('DB_URL')) {
     putenv('DB_URL=sqlite:///:memory:');
 }
+
 ConnectionManager::setConfig('test', ['url' => getenv('DB_URL')]);
 Router::reload();
 Security::setSalt('oJt5xYtBOSCLtlra3s5xgs96USjPLNJ8np657QSI4zhksqOh');
+
+Plugin::getCollection()->add(new \Token\Plugin());
 
 $_SERVER['PHP_SELF'] = '/';

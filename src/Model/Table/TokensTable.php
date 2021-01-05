@@ -113,11 +113,13 @@ class TokensTable extends Table
             // cleanup
             $clean = preg_replace('/[^A-Za-z0-9]/', '', $random);
 
+            // @codeCoverageIgnoreStart
             try {
                 $randomInt = random_int(1, $length * 2);
             } catch (Exception $exception) {
                 $randomInt = mt_rand(1, $length * 2);
             }
+            // @codeCoverageIgnoreEnd
 
             // random part length
             $key = substr($clean, $randomInt, $length);
