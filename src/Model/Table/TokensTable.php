@@ -64,7 +64,6 @@ class TokensTable extends Table
      * @param  array $content Token content as array
      * @param  \DateTimeInterface|string|null $expire Expire date or null
      * @return string Token string id
-     * @throws \Exception
      */
     public function generate(array $content = [], $expire = null): string
     {
