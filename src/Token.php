@@ -35,7 +35,7 @@ class Token
      */
     public static function generate(array $content = [], string $expire = null): string
     {
-        return self::getTable()->newToken($content, $expire);
+        return self::getTable()->generate($content, $expire);
     }
 
     /**

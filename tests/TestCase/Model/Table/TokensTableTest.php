@@ -1,22 +1,25 @@
 <?php
+declare(strict_types=1);
+
 namespace Token\Test\TestCase\Model\Table;
 
-use Token\Model\Table\TokensTable;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Token\Model\Entity\Token;
 
 /**
- * Token\Model\Table\TokensTable Test Case
+ * Class TokensTableTest
+ *
+ * @package Token\Test\TestCase\Model\Table
+ * @coversDefaultClass \Token\Model\Table\TokensTable
  */
 class TokensTableTest extends TestCase
 {
-
     /**
-     * Test subject
+     * Table
      *
      * @var \Token\Model\Table\TokensTable
      */
-    public $Tokens;
+    public $table;
 
     /**
      * Fixtures
@@ -35,8 +38,8 @@ class TokensTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Tokens') ? [] : ['className' => TokensTable::class];
-        $this->Tokens = TableRegistry::get('Tokens', $config);
+
+        $this->table = $this->getTableLocator()->get('Token.Tokens');
     }
 
     /**
@@ -46,59 +49,125 @@ class TokensTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Tokens);
+        unset($this->table);
 
         parent::tearDown();
     }
 
+    /**
+     * @test
+     * @covers ::_initializeSchema
+     */
+    public function testSchema()
+    {
+        $schema = $this->table->getSchema();
+        self::assertSame('json', $schema->getColumnType('content'));
+    }
+
+    /**
+     * @test
+     * @covers ::initialize
+     */
+    public function testInitialize()
+    {
+        self::assertSame('token_tokens', $this->table->getTable());
+        self::assertSame('id', $this->table->getPrimaryKey());
+        self::assertTrue($this->table->hasBehavior('Timestamp'));
+    }
+
+    /**
+     * @test
+     * @covers ::read
+     * @covers ::_cleanExpired
+     */
     public function testReadExpired()
     {
-        $entity = $this->Tokens->read('abcde456');
-        $this->assertNull($entity);
+        $entity = $this->table->read('abcde456');
+        self::assertNull($entity);
     }
 
+    /**
+     * @test
+     * @covers ::read
+     */
     public function testReadExists()
     {
-        $entity = $this->Tokens->read('abcde123');
-        $this->assertInstanceOf(\Token\Model\Entity\Token::class, $entity);
-        $this->assertSame('abcde123', $entity->id);
+        $entity = $this->table->read('abcde123');
+        self::assertInstanceOf(Token::class, $entity);
+        self::assertSame('abcde123', $entity->id);
     }
 
-    public function testReadExistsBInary()
+    /**
+     * @test
+     * @covers ::read
+     */
+    public function testReadExistsBinary()
     {
-        $entity = $this->Tokens->read('abcdE123');
-        $this->assertNull($entity);
+        $entity = $this->table->read('abcdE123');
+        self::assertNull($entity);
     }
 
+    /**
+     * @test
+     * @covers ::read
+     */
     public function testReadContent()
     {
-        $entity = $this->Tokens->read('abcde789');
-        $this->assertCount(3, $entity->content);
-        $this->assertArrayHasKey('email', $entity->content);
-        $this->assertSame('erwane@phea.fr', $entity->content['email']);
+        $entity = $this->table->read('abcde789');
+        self::assertCount(3, $entity->content);
+        self::assertArrayHasKey('email', $entity->content);
+        self::assertSame('erwane@phea.fr', $entity->content['email']);
     }
 
-    public function testGenerate()
+    /**
+     * @test
+     * @covers ::generate
+     * @covers ::_uniqId
+     */
+    public function testGenerateWithNoData()
     {
         // no data at all
-        $id = $this->Tokens->newToken();
-        $entity = $this->Tokens->get($id);
-        $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 1 day')));
-        $this->assertEmpty($entity->content);
+        $id = $this->table->generate();
 
+        /** @var \Token\Model\Entity\Token $entity */
+        $entity = $this->table->get($id);
+
+        self::assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 1 day')));
+        self::assertEmpty($entity->content);
+    }
+
+    /**
+     * @test
+     * @covers ::generate
+     */
+    public function testGenerateExpire3Days()
+    {
         // // expire in 3 days
-        $id = $this->Tokens->newToken([], '+3 days');
-        $entity = $this->Tokens->get($id);
-        $this->assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 3 day')));
+        $id = $this->table->generate([], '+3 days');
 
+        /** @var \Token\Model\Entity\Token $entity */
+        $entity = $this->table->get($id);
+
+        self::assertSame($entity->expire->toDateString(), date('Y-m-d', strtotime('now + 3 day')));
+    }
+
+    /**
+     * @test
+     * @covers ::generate
+     */
+    public function testGenerateWithData()
+    {
         // content as array
-        $id = $this->Tokens->newToken([
+        $id = $this->table->generate([
             'model' => 'Users',
             'model_id' => 1,
             'type' => 'accountValidation',
         ]);
-        $entity = $this->Tokens->get($id);
-        $this->assertCount(3, $entity->content);
-        $this->assertArrayHasKey('model', $entity->content);
+
+        /** @var \Token\Model\Entity\Token $entity */
+        $entity = $this->table->get($id);
+
+        self::assertCount(3, $entity->content);
+        self::assertArrayHasKey('model', $entity->content);
     }
 }

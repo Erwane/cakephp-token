@@ -5,29 +5,31 @@ namespace Token\Model\Table;
 
 use Cake\Chronos\Chronos;
 use Cake\Database\Schema\TableSchema;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
+use Exception;
 use Token\Model\Entity\Token;
 
 /**
  * Class TokensTable
  *
  * @package Token\Model\Table
+ * @method findById(string|string[]|null $id)
  */
 class TokensTable extends Table
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function _initializeSchema(TableSchema $schema)
+    protected function _initializeSchema(TableSchema $schema): TableSchema
     {
-        $schema->setColumnType('content', 'json');
-
-        return $schema;
+        return parent::_initializeSchema($schema)
+            ->setColumnType('content', 'json');
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function initialize(array $config)
     {
@@ -39,8 +41,9 @@ class TokensTable extends Table
     }
 
     /**
-     * get token by id
-     * @param  string $id   token id
+     * Get token by id
+     *
+     * @param  string $id Token id
      * @return \Token\Model\Entity\Token|null Token entity
      */
     public function read(string $id): ?Token
@@ -56,12 +59,14 @@ class TokensTable extends Table
     }
 
     /**
-     * create token with option
-     * @param  array        $content token content (custom)
-     * @param  null|date    $expire  expire date or null
-     * @return string                token id
+     * Create token with content
+     *
+     * @param  array $content Token content as array
+     * @param  \DateTimeInterface|string|null $expire Expire date or null
+     * @return string Token string id
+     * @throws \Exception
      */
-    public function newToken(array $content = [], $expire = null)
+    public function generate(array $content = [], $expire = null): string
     {
         $entity = $this->newEntity([
             'id' => $this->_uniqId(),
@@ -75,13 +80,30 @@ class TokensTable extends Table
     }
 
     /**
-     * generate uniq token id
+     * Alias for generate
+     *
+     * @param  array $content Token content as array
+     * @param  \DateTimeInterface|string|null $expire Expire date or null
+     * @return string Token string id
+     * @throws \Exception
+     * @deprecated Use TokensTable::generate
+     * @codeCoverageIgnore
+     * @noinspection PhpUnused
+     */
+    public function newToken(array $content = [], $expire = null): string
+    {
+        deprecationWarning('TokensTable::newToken() is deprecated. Use TokensTable::generate().');
+
+        return $this->generate($content, $expire);
+    }
+
+    /**
+     * Generate uniq token id
+     *
      * @return string
      */
-    protected function _uniqId()
+    protected function _uniqId(): string
     {
-        $exists = true;
-
         $length = 8;
 
         do {
@@ -91,8 +113,14 @@ class TokensTable extends Table
             // cleanup
             $clean = preg_replace('/[^A-Za-z0-9]/', '', $random);
 
+            try {
+                $randomInt = random_int(1, $length * 2);
+            } catch (Exception $exception) {
+                $randomInt = mt_rand(1, $length * 2);
+            }
+
             // random part length
-            $key = substr($clean, random_int(1, $length * 2), $length);
+            $key = substr($clean, $randomInt, $length);
         } while ($this->exists(['id' => $key]));
 
         return $key;
@@ -104,6 +132,6 @@ class TokensTable extends Table
      */
     protected function _cleanExpired()
     {
-        $this->deleteAll(['expire <' => \Cake\I18n\FrozenTime::now()]);
+        $this->deleteAll(['expire <' => FrozenTime::now()]);
     }
 }
