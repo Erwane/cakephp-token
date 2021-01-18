@@ -1,4 +1,4 @@
-# CakePHP 3 Token plugin
+# CakePHP 4 Token plugin
 
 ## Description
 This is a really "simple to use" cakephp 4 plugin for generating and reading temporaries tokens
