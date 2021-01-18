@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Token\Model\Table;
 
 use Cake\Chronos\Chronos;
-use Cake\Database\Schema\TableSchema;
+use Cake\Database\Schema\TableSchemaInterface;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
@@ -22,7 +22,7 @@ class TokensTable extends Table
     /**
      * @inheritDoc
      */
-    protected function _initializeSchema(TableSchema $schema): TableSchema
+    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
     {
         return parent::_initializeSchema($schema)
             ->setColumnType('content', 'json');
@@ -31,7 +31,7 @@ class TokensTable extends Table
     /**
      * @inheritDoc
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 

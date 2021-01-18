@@ -18,7 +18,7 @@ class MigrationsTest extends TestCase
     /**
      * @inheritDoc
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -72,7 +72,6 @@ class MigrationsTest extends TestCase
                 'default' => null,
                 'precision' => null,
                 'comment' => null,
-                'fixed' => null,
                 'collate' => null,
             ],
             'content' => [
@@ -87,7 +86,7 @@ class MigrationsTest extends TestCase
             'expire' => [
                 'type' => 'datetime',
                 'length' => null,
-                'null' => true,
+                'null' => false,
                 'default' => null,
                 'precision' => null,
                 'comment' => null,
@@ -95,7 +94,7 @@ class MigrationsTest extends TestCase
             'created' => [
                 'type' => 'datetime',
                 'length' => null,
-                'null' => true,
+                'null' => false,
                 'default' => null,
                 'precision' => null,
                 'comment' => null,
@@ -104,7 +103,7 @@ class MigrationsTest extends TestCase
 
         foreach ($columns as $name => $expected) {
             $column = $schema->getColumn($name);
-            self::assertSame($column, $expected);
+            self::assertSame($column, $expected, "Field `$name`: comparison fail");
         }
     }
 }
