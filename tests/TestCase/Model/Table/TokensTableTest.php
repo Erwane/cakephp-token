@@ -170,4 +170,16 @@ class TokensTableTest extends TestCase
         self::assertCount(3, $entity->content);
         self::assertArrayHasKey('model', $entity->content);
     }
+
+    /**
+     * @test
+     * @covers ::generate
+     */
+    public function testGenerateWithLength()
+    {
+        // content as array
+        $id = $this->table->generate(['model' => 'Users'], null, 32);
+
+        self::assertEquals(32, strlen($id));
+    }
 }

@@ -56,7 +56,7 @@ class MigrationsTest extends TestCase
         self::assertTrue($success);
 
         $status = $migrations->status();
-        self::assertCount(3, $status);
+        self::assertCount(4, $status);
 
         $schema = $cnx->getSchemaCollection()->describe('token_tokens');
 
@@ -67,7 +67,7 @@ class MigrationsTest extends TestCase
         $columns = [
             'id' => [
                 'type' => 'string',
-                'length' => 8,
+                'length' => 32,
                 'null' => false,
                 'default' => null,
                 'precision' => null,
