@@ -34,7 +34,7 @@ class Token
      * @param int $tokenLength character length of the token
      * @return string Token id
      */
-    public static function generate(array $content = [], string $expire = null, int $tokenLength = null): string
+    public static function generate(array $content = [], string $expire = null, int $tokenLength = 8): string
     {
         return self::getTable()->generate($content, $expire, $tokenLength);
     }

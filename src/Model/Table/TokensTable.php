@@ -66,7 +66,7 @@ class TokensTable extends Table
      * @param int $tokenLength character length of the token
      * @return string Token string id
      */
-    public function generate(array $content = [], $expire = null, $tokenLength = null): string
+    public function generate(array $content = [], $expire = null, int $tokenLength = 8): string
     {
         $entity = $this->newEntity([
             'id' => $this->_uniqId($tokenLength),
@@ -103,7 +103,7 @@ class TokensTable extends Table
      * @param int $length character length of the token
      * @return string
      */
-    protected function _uniqId($length): string
+    protected function _uniqId(int $length): string
     {
         $length = ($length > 0 && $length <= 32) ? $length : 8;
 
