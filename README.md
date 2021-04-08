@@ -17,10 +17,11 @@ bin/cake migrations migrate -p Token
  * Create a token with data and return the id
  * @param  array  $content   an array of custom data
  * @param  string $expire    expire exprimed in '+6 days +2 hours' format
+ * @param  int $length Token length
  * @return string            The token id
  */
 
-$myNewTokenId = \Token\Token::generate(array $content, $expire);
+$myNewTokenId = \Token\Token::generate(array $content, $expire, 8);
 ```
 
 ### Get token
