@@ -31,11 +31,12 @@ class Token
      *
      * @param  array  $content Token content as array
      * @param  string|null $expire Expire exprimed in '+6 days +2 hours' format
+     * @param int $tokenLength character length of the token
      * @return string Token id
      */
-    public static function generate(array $content = [], string $expire = null): string
+    public static function generate(array $content = [], string $expire = null, int $tokenLength = null): string
     {
-        return self::getTable()->generate($content, $expire);
+        return self::getTable()->generate($content, $expire, $tokenLength);
     }
 
     /**

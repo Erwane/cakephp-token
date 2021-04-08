@@ -63,12 +63,13 @@ class TokensTable extends Table
      *
      * @param  array $content Token content as array
      * @param  \DateTimeInterface|string|null $expire Expire date or null
+     * @param int $tokenLength character length of the token
      * @return string Token string id
      */
-    public function generate(array $content = [], $expire = null): string
+    public function generate(array $content = [], $expire = null, $tokenLength = null): string
     {
         $entity = $this->newEntity([
-            'id' => $this->_uniqId(),
+            'id' => $this->_uniqId($tokenLength),
             'content' => $content,
             'expire' => is_null($expire) ? Chronos::parse('+1 day') : Chronos::parse($expire),
         ]);
@@ -99,11 +100,12 @@ class TokensTable extends Table
     /**
      * Generate uniq token id
      *
+     * @param int $length character length of the token
      * @return string
      */
-    protected function _uniqId(): string
+    protected function _uniqId($length): string
     {
-        $length = 8;
+        $length = ($length > 0 && $length <= 32) ? $length : 8;
 
         do {
             // generate random
