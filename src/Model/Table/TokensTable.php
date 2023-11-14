@@ -10,6 +10,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Security;
 use Exception;
 use Token\Model\Entity\Token;
+use function Cake\Core\deprecationWarning;
 
 /**
  * Class TokensTable
@@ -22,9 +23,9 @@ class TokensTable extends Table
     /**
      * @inheritDoc
      */
-    protected function _initializeSchema(TableSchemaInterface $schema): TableSchemaInterface
+    public function getSchema(): TableSchemaInterface
     {
-        return parent::_initializeSchema($schema)
+        return parent::getSchema()
             ->setColumnType('content', 'json');
     }
 
