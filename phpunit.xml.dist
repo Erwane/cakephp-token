@@ -13,15 +13,6 @@
         </testsuite>
         <!-- Add plugin test suites here. -->
     </testsuites>
-    <!-- Setup a listener for fixtures -->
-    <listeners>
-        <listener class="\Cake\TestSuite\Fixture\FixtureInjector"
-                  file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
-            <arguments>
-                <object class="\Cake\TestSuite\Fixture\FixtureManager"/>
-            </arguments>
-        </listener>
-    </listeners>
     <!-- Coverage -->
     <coverage>
         <include>
@@ -29,4 +20,7 @@
             <directory suffix=".php">./plugins/*/src/</directory>
         </include>
     </coverage>
+    <extensions>
+        <extension class="\Cake\TestSuite\Fixture\PHPUnitExtension"/>
+    </extensions>
 </phpunit>

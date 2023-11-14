@@ -12,7 +12,7 @@ class SimplifyTokens extends AbstractMigration
     public $autoId = false;
 
     /**
-     * Apply migrations
+     * Migration up
      *
      * @return void
      */
@@ -21,12 +21,18 @@ class SimplifyTokens extends AbstractMigration
         $table = $this->table('token_tokens');
 
         $table
+            ->removeIndex(['scope', 'scope_id'])
             ->removeColumn('scope')
             ->removeColumn('scope_id')
             ->removeColumn('type')
-            ->save();
+            ->update();
     }
 
+    /**
+     * Migration down
+     *
+     * @return void
+     */
     public function down()
     {
         $table = $this->table('token_tokens');

@@ -6,6 +6,7 @@ use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
+use Migrations\TestSuite\Migrator;
 
 $findRoot = function ($root) {
     do {
@@ -26,10 +27,18 @@ chdir($root);
 require_once 'vendor/cakephp/cakephp/src/basics.php';
 require_once 'vendor/autoload.php';
 
-define('ROOT', $root . DS . 'tests' . DS . 'test_app' . DS);
-define('APP', ROOT . 'App' . DS);
+$_SERVER['PHP_SELF'] = '/';
+
+define("ROOT", dirname(__FILE__, 2));
 define('TMP', sys_get_temp_dir() . DS);
-define('CONFIG', ROOT . DS . 'config' . DS);
+const TESTS = ROOT . DS . 'tests' . DS;
+const CAKE_CORE_INCLUDE_PATH = ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp';
+
+if (!defined('TEST_APP')) {
+    define('TEST_APP', TESTS . 'test_app' . DS);
+}
+
+const APP = ROOT . 'App' . DS;
 
 Configure::write('debug', true);
 Configure::write('App', [
@@ -51,3 +60,5 @@ Security::setSalt('oJt5xYtBOSCLtlra3s5xgs96USjPLNJ8np657QSI4zhksqOh');
 Plugin::getCollection()->add(new \Token\Plugin());
 
 $_SERVER['PHP_SELF'] = '/';
+
+(new Migrator())->run();
