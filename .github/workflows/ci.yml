@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '3.x'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  testsuite:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.1', '8.3']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, intl
+        ini-values: zend.assertions = 1
+        coverage: pcov
+
+    - name: Composer install
+      uses: ramsey/composer-install@v3
+      with:
+        dependency-versions: ${{ matrix.dependencies }}
+        composer-options: "${{ matrix.composer-options }}"
+
+    - name: Run PHPUnit
+      env:
+        XDEBUG_MODE: coverage
+      run: |
+        if [[ '${{ matrix.php-version }}' == '8.1' ]]; then
+          export CODECOVERAGE=1
+          vendor/bin/phpunit --display-warnings --display-incomplete --coverage-clover=coverage.xml
+        else
+          vendor/bin/phpunit --display-phpunit-deprecations --display-deprecations --display-warnings
+        fi
+
+    - name: Submit code coverage
+      if: matrix.php-version == '8.1'
+      uses: codecov/codecov-action@v5
+      with:
+        files: coverage.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
