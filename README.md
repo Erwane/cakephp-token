@@ -1,11 +1,19 @@
-# CakePHP 4 Token plugin
+# Token plugin for CakePHP
+
+## Version map
+
+| branch | CakePHP core | PHP min |
+|--------|--------------|---------|
+| 1.x    | ^3.0         | PHP 7.2 |
+| 2.x    | ^4.0         | PHP 7.4 |
+| 3.x    | ^5.0         | PHP 8.1 |
 
 ## Description
 This is a really "simple to use" cakephp 4 plugin for generating and reading temporaries tokens
 
 ## Installation
 ```bash
-composer require erwane/cakephp-token:^2.0
+composer require erwane/cakephp-token
 bin/cake migrations migrate -p Token
 ```
 
