@@ -7,3 +7,4 @@ grumphp:
     phpcs:
       whitelist_patterns:
         - /^src\/(.*\.php)/
+        - /^tests\/(.*\.php)/

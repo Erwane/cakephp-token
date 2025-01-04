@@ -1,6 +1,18 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * CakePHP Token
+ * Copyright (c) Erwane BRETON
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Erwane BRETON
+ * @see         https://github.com/Erwane/cakephp-token
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ */
 namespace Token\Model\Table;
 
 use Cake\Chronos\Chronos;
@@ -8,9 +20,9 @@ use Cake\Database\Schema\TableSchemaInterface;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Table;
 use Cake\Utility\Security;
+use DateTimeInterface;
 use Exception;
 use Token\Model\Entity\Token;
-use function Cake\Core\deprecationWarning;
 
 /**
  * Class TokensTable
@@ -44,7 +56,7 @@ class TokensTable extends Table
     /**
      * Get token by id
      *
-     * @param  string $id Token id
+     * @param string $id Token id
      * @return \Token\Model\Entity\Token|null Token entity
      */
     public function read(string $id): ?Token
@@ -62,13 +74,16 @@ class TokensTable extends Table
     /**
      * Create token with content
      *
-     * @param  array $content Token content as array
-     * @param  \DateTimeInterface|string|null $expire Expire date or null
+     * @param array $content Token content as array
+     * @param \DateTimeInterface|string|null $expire Expire date or null
      * @param int $tokenLength character length of the token
      * @return string Token string id
      */
-    public function generate(array $content = [], $expire = null, int $tokenLength = 8): string
-    {
+    public function generate(
+        array $content = [],
+        DateTimeInterface|string|null $expire = null,
+        int $tokenLength = 8
+    ): string {
         $entity = $this->newEntity([
             'id' => $this->_uniqId($tokenLength),
             'content' => $content,
@@ -81,24 +96,6 @@ class TokensTable extends Table
     }
 
     /**
-     * Alias for generate
-     *
-     * @param  array $content Token content as array
-     * @param  \DateTimeInterface|string|null $expire Expire date or null
-     * @return string Token string id
-     * @throws \Exception
-     * @deprecated Use TokensTable::generate
-     * @codeCoverageIgnore
-     * @noinspection PhpUnused
-     */
-    public function newToken(array $content = [], $expire = null): string
-    {
-        deprecationWarning('TokensTable::newToken() is deprecated. Use TokensTable::generate().');
-
-        return $this->generate($content, $expire);
-    }
-
-    /**
      * Generate uniq token id
      *
      * @param int $length character length of the token
@@ -106,7 +103,7 @@ class TokensTable extends Table
      */
     protected function _uniqId(int $length): string
     {
-        $length = ($length > 0 && $length <= 32) ? $length : 8;
+        $length = $length > 0 && $length <= 32 ? $length : 8;
 
         do {
             // generate random
@@ -115,13 +112,11 @@ class TokensTable extends Table
             // cleanup
             $clean = preg_replace('/[^A-Za-z0-9]/', '', $random);
 
-            // @codeCoverageIgnoreStart
             try {
                 $randomInt = random_int(1, $length * 2);
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 $randomInt = mt_rand(1, $length * 2);
             }
-            // @codeCoverageIgnoreEnd
 
             // random part length
             $key = substr($clean, $randomInt, $length);
@@ -132,9 +127,10 @@ class TokensTable extends Table
 
     /**
      * clean expired tokens
+     *
      * @return void
      */
-    protected function _cleanExpired()
+    protected function _cleanExpired(): void
     {
         $this->deleteAll(['expire <' => FrozenTime::now()]);
     }

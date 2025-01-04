@@ -17,7 +17,7 @@ class IdLength extends AbstractMigration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         $table = $this->table('token_tokens');
 

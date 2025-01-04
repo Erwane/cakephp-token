@@ -9,15 +9,10 @@ use Exception;
 use Migrations\Migrations;
 
 /**
- * Class MigrationsTest
- *
- * @package Token\Test\TestCase
+ * Migrations tests
  */
 class MigrationsTest extends TestCase
 {
-    /**
-     * @inheritDoc
-     */
     public function tearDown(): void
     {
         parent::tearDown();
@@ -27,9 +22,6 @@ class MigrationsTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
     public function testMigrations()
     {
         ConnectionManager::setConfig('migration', ['url' => 'sqlite:///' . TMP . 'test_token']);
@@ -45,7 +37,7 @@ class MigrationsTest extends TestCase
                 }
             }
         } catch (Exception $e) {
-            self::assertFalse(true, "Can't cleanup database");
+            $this->assertFalse(true, "Can't cleanup database");
         }
 
         $migrations = new Migrations([
@@ -53,15 +45,15 @@ class MigrationsTest extends TestCase
             'connection' => 'migration',
         ]);
         $success = $migrations->migrate();
-        self::assertTrue($success);
+        $this->assertTrue($success);
 
         $status = $migrations->status();
-        self::assertCount(4, $status);
+        $this->assertCount(4, $status);
 
         $schema = $cnx->getSchemaCollection()->describe('token_tokens');
 
         // Columns
-        self::assertSame(['id', 'content', 'expire', 'created'], $schema->columns());
+        $this->assertSame(['id', 'content', 'expire', 'created'], $schema->columns());
 
         // Describe
         $columns = [
@@ -103,7 +95,7 @@ class MigrationsTest extends TestCase
 
         foreach ($columns as $name => $expected) {
             $column = $schema->getColumn($name);
-            self::assertSame($column, $expected, "Field `$name`: comparison fail");
+            $this->assertSame($column, $expected, "Field `$name`: comparison fail");
         }
     }
 }
