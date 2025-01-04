@@ -7,19 +7,17 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * Class TokensFixture
- *
- * @package Token\Test\Fixture
  */
 class TokensFixture extends TestFixture
 {
-    public $table = 'token_tokens';
+    public string $table = 'token_tokens';
 
     /**
      * fields property
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'string', 'limit' => 50, 'null' => false],
         'content' => ['type' => 'text', 'null' => true],
         'expire' => 'datetime',
