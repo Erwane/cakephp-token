@@ -29,7 +29,7 @@ class Token
      * Create a token with data and return the id
      *
      * @param array  $content Token content as array
-     * @param string|null $expire Expire exprimed in '+6 days +2 hours' format
+     * @param string|null $expire Expire in '+6 days +2 hours' format
      * @param int $tokenLength character length of the token
      * @return string Token id
      */

@@ -11,7 +11,6 @@ use Cake\Utility\Security;
 use DateTimeInterface;
 use Exception;
 use Token\Model\Entity\Token;
-use function Cake\Core\deprecationWarning;
 
 /**
  * Class TokensTable
@@ -85,24 +84,6 @@ class TokensTable extends Table
     }
 
     /**
-     * Alias for generate
-     *
-     * @param array $content Token content as array
-     * @param \DateTimeInterface|string|null $expire Expire date or null
-     * @return string Token string id
-     * @throws \Exception
-     * @deprecated Use TokensTable::generate
-     * @codeCoverageIgnore
-     * @noinspection PhpUnused
-     */
-    public function newToken(array $content = [], DateTimeInterface|string|null $expire = null): string
-    {
-        deprecationWarning('TokensTable::newToken() is deprecated. Use TokensTable::generate().');
-
-        return $this->generate($content, $expire);
-    }
-
-    /**
      * Generate uniq token id
      *
      * @param int $length character length of the token
@@ -119,13 +100,11 @@ class TokensTable extends Table
             // cleanup
             $clean = preg_replace('/[^A-Za-z0-9]/', '', $random);
 
-            // @codeCoverageIgnoreStart
             try {
                 $randomInt = random_int(1, $length * 2);
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 $randomInt = mt_rand(1, $length * 2);
             }
-            // @codeCoverageIgnoreEnd
 
             // random part length
             $key = substr($clean, $randomInt, $length);
