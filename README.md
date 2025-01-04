@@ -1,7 +1,7 @@
 # Token plugin for CakePHP
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
-[![codecov](https://codecov.io/gh/Erwane/cakephp-token/branch/3.x/graph/badge.svg?token=NNY4FBXCEE)](https://codecov.io/gh/Erwane/cakephp-token)
+[![codecov](https://codecov.io/gh/Erwane/cakephp-token/branch/3.x/graph/badge.svg?token=Ai4gc1GP9P)](https://codecov.io/gh/Erwane/cakephp-token)
 [![Build Status](https://github.com/Erwane/cakephp-token/actions/workflows/ci.yml/badge.svg?branch=3.x)](https://github.com/Erwane/cakephp-contact/actions)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/Erwane/cakephp-token)](https://packagist.org/packages/Erwane/cakephp-token)
 [![Packagist Version](https://img.shields.io/packagist/v/Erwane/cakephp-token)](https://packagist.org/packages/Erwane/cakephp-token)
