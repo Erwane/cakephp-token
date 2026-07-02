@@ -82,7 +82,7 @@ class TokensTable extends Table
     public function generate(
         array $content = [],
         DateTimeInterface|string|null $expire = null,
-        int $tokenLength = 8
+        int $tokenLength = 8,
     ): string {
         $entity = $this->newEntity([
             'id' => $this->_uniqId($tokenLength),

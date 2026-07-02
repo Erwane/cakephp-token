@@ -5,12 +5,12 @@
  */
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
+use Migrations\BaseMigration;
 
 /**
  * Class BinaryId
  */
-class BinaryId extends AbstractMigration
+class BinaryId extends BaseMigration
 {
     /**
      * Apply migrations

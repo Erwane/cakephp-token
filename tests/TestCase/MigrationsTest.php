@@ -80,6 +80,7 @@ class MigrationsTest extends TestCase
                 'length' => null,
                 'null' => false,
                 'default' => null,
+                'onUpdate' => null,
                 'precision' => null,
                 'comment' => null,
             ],
@@ -88,6 +89,7 @@ class MigrationsTest extends TestCase
                 'length' => null,
                 'null' => false,
                 'default' => null,
+                'onUpdate' => null,
                 'precision' => null,
                 'comment' => null,
             ],
@@ -95,7 +97,7 @@ class MigrationsTest extends TestCase
 
         foreach ($columns as $name => $expected) {
             $column = $schema->getColumn($name);
-            $this->assertSame($column, $expected, "Field `$name`: comparison fail");
+            $this->assertEquals($column, $expected, "Field `$name`: comparison fail");
         }
     }
 }

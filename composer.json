@@ -2,7 +2,10 @@
     "name": "erwane/cakephp-token",
     "description": "CakePHP plugin for tokens",
     "type": "cakephp-plugin",
-    "keywords": ["cakephp", "token"],
+    "keywords": [
+        "cakephp",
+        "token"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -14,22 +17,19 @@
     ],
     "support": {
         "issues": "https://github.com/Erwane/cakephp-token/issues",
-        "source": "https://github.com/Erwane/cakephp-token",
-        "docs": "https://github.com/Erwane/cakephp-token/blob/master/README.md"
+        "source": "https://github.com/Erwane/cakephp-token"
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-json": "*",
-        "cakephp/cakephp": "^5.0",
-        "cakephp/migrations": "^4.0"
+        "cakephp/cakephp": "^5.3",
+        "cakephp/migrations": "^5.0"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^5.0",
         "php-parallel-lint/php-parallel-lint": "^1.3",
-        "phpro/grumphp": "^2.0",
-        "phpunit/phpunit": "^10.5.5 || ^11.1.3"
+        "phpunit/phpunit": "^11.1.3"
     },
-
     "autoload": {
         "psr-4": {
             "Token\\": "src/"
@@ -40,12 +40,10 @@
             "Token\\Test\\": "tests/"
         }
     },
-
     "scripts": {
         "cscheck": "vendor/bin/phpcs -p src/ tests/",
         "csfix": "vendor/bin/phpcbf -p src/ tests/"
     },
-
     "minimum-stability": "stable",
     "prefer-stable": true,
     "config": {

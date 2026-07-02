@@ -15,7 +15,7 @@
 | 3.x    | ^5.0         | PHP 8.1 |
 
 ## Description
-This is a really "simple to use" CakePHP plugin for generating and reading temporaries tokens
+This is a really "easy to use" CakePHP plugin for generating and reading temporaries tokens
 
 ## Installation
 ```bash

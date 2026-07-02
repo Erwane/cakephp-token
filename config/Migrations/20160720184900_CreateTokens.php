@@ -5,13 +5,13 @@
  */
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
-use Phinx\Db\Adapter\MysqlAdapter;
+use Migrations\BaseMigration;
+use Migrations\Db\Adapter\MysqlAdapter;
 
 /**
  * Class CreateTokens
  */
-class CreateTokens extends AbstractMigration
+class CreateTokens extends BaseMigration
 {
     public bool $autoId = false;
 
@@ -24,9 +24,13 @@ class CreateTokens extends AbstractMigration
     {
         $table = $this->table('token_tokens');
 
-        $table->addColumn('id', 'string', ['limit' => 12, 'null' => false,])
+        $table
+            ->addColumn('id', 'string', ['limit' => 12, 'null' => false,])
             ->addColumn('scope', 'string', ['limit' => 50, 'default' => null, 'null' => true,])
-            ->addColumn('scope_id', 'integer', ['signed' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'default' => null, 'null' => true,])
+            ->addColumn(
+                'scope_id', 'integer',
+                ['signed' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'default' => null, 'null' => true,],
+            )
             ->addColumn('type', 'string', ['limit' => 64, 'null' => true,])
             ->addColumn('content', 'text', ['null' => true,])
             ->addColumn('expire', 'datetime', ['null' => false,])

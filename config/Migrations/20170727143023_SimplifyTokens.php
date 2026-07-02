@@ -5,13 +5,13 @@
  */
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
-use Phinx\Db\Adapter\MysqlAdapter;
+use Migrations\BaseMigration;
+use Migrations\Db\Adapter\MysqlAdapter;
 
 /**
  * Class SimplifyTokens
  */
-class SimplifyTokens extends AbstractMigration
+class SimplifyTokens extends BaseMigration
 {
     public bool $autoId = false;
 
@@ -43,7 +43,10 @@ class SimplifyTokens extends AbstractMigration
 
         $table
             ->addColumn('scope', 'string', ['limit' => 50, 'default' => null, 'null' => true,])
-            ->addColumn('scope_id', 'integer', ['signed' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'default' => null, 'null' => true,])
+            ->addColumn(
+                'scope_id', 'integer',
+                ['signed' => false, 'limit' => MysqlAdapter::INT_REGULAR, 'default' => null, 'null' => true,],
+            )
             ->addColumn('type', 'string', ['limit' => 64, 'null' => true,])
             ->addIndex(['scope', 'scope_id'])
             ->save();

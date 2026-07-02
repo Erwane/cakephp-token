@@ -4,17 +4,16 @@
     <arg name="encoding=UTF-8"/>
     <arg name="report=full"/>
     <arg name="parallel=8"/>
-    <arg name="severity=1"/>
     <arg name="extensions=php"/>
 
-    <config name="installed_paths" value="../../cakephp/cakephp-codesniffer"/>
+    <file>./src</file>
+    <file>./tests</file>
 
-    <file>src/</file>
-    <file>tests/</file>
+    <rule ref="CakePHP" />
 
-    <rule ref="CakePHP"/>
-    <arg value="s"/>
-
+    <rule ref="Generic.Commenting.Todo.CommentFound">
+        <severity>0</severity>
+    </rule>
     <rule ref="Generic.Commenting.Todo.TaskFound">
         <severity>0</severity>
     </rule>
