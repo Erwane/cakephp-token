@@ -1,0 +1,6 @@
+services:
+  php:
+    build:
+      ./.docker/
+    volumes:
+      - ".:/var/www/html"

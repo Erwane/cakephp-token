@@ -1,10 +1,9 @@
+/.docker/               export-ignore
 /.github/               export-ignore
-/docs/                  export-ignore
 /tests/                 export-ignore
-.editorconfig           export-ignore
+/.editorconfig           export-ignore
 .gitattributes          export-ignore
 .gitignore              export-ignore
-.composer.lock          export-ignore
-/grumphp.yml            export-ignore
+/docker-compose.yaml     export-ignore
 /phpcs.xml              export-ignore
 /phpunit.xml.dist       export-ignore
