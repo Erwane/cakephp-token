@@ -22,6 +22,6 @@ use Cake\Core\BasePlugin;
  *
  * @package Token
  */
-class Plugin extends BasePlugin
+class TokenPlugin extends BasePlugin
 {
 }
